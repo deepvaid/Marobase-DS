@@ -1,10 +1,29 @@
 /** @type { import('@storybook/vue3-vite').Preview } */
 import { setup } from '@storybook/vue3';
-import vuetify from '../src/plugins/vuetify';
+import { registerPlugins } from '../src/plugins';
+import { withVuetifyTheme } from './withVuetifyTheme.decorator';
 
 setup((app) => {
-  app.use(vuetify);
+  registerPlugins(app);
 });
+
+export const decorators = [withVuetifyTheme];
+
+export const globalTypes = {
+  theme: {
+    name: 'Theme',
+    description: 'Global Theme',
+    defaultValue: 'light',
+    toolbar: {
+      icon: 'circlehollow',
+      items: [
+        { value: 'light', title: 'Light', icon: 'circlehollow' },
+        { value: 'dark', title: 'Dark', icon: 'circle' },
+      ],
+      showName: true,
+    },
+  },
+};
 
 const preview = {
   parameters: {
@@ -16,9 +35,6 @@ const preview = {
     },
 
     a11y: {
-      // 'todo' - show a11y violations in the test UI only
-      // 'error' - fail CI on a11y violations
-      // 'off' - skip a11y checks entirely
       test: "todo"
     }
   },

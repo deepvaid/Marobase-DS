@@ -15,10 +15,14 @@ const config = {
   ],
   "framework": "@storybook/vue3-vite",
   async viteFinal(config) {
-    return {
-      ...config,
-      base: './', // Ensure relative paths for GitHub Pages
-    };
+    const { mergeConfig } = await import('vite');
+
+    return mergeConfig(config, {
+      base: './',
+      build: {
+        assetsDir: 'resources',
+      },
+    });
   }
 };
 export default config;
